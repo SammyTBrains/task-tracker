@@ -31,7 +31,7 @@ export default ExpenseItem;
 
 const styles = StyleSheet.create({
   pressed: {
-    opacity: 0.75,
+    opacity: 0.65,
   },
   expenseItem: {
     padding: 12,
