@@ -1,11 +1,24 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { GlobalStyles } from "../../constants/styles";
 import { getFormattedDate } from "../../util/date";
+import { useNavigation } from "@react-navigation/native";
+
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootNavParamList } from "../../type-utilities/type";
+
+type ManageExpenseScreenNavigationProp = NativeStackNavigationProp<
+  RootNavParamList,
+  "ManageExpense"
+>;
 
 type Props = { description: string; date: Date; amount: number };
 
 const ExpenseItem = (props: Props) => {
-  const expressPressHandler = () => {};
+  const navigation = useNavigation<ManageExpenseScreenNavigationProp>();
+
+  const expressPressHandler = () => {
+    navigation.navigate("ManageExpense");
+  };
 
   return (
     <Pressable
