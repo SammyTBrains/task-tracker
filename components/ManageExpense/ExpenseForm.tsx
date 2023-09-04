@@ -39,35 +39,29 @@ const ExpenseForm = () => {
           <View style={styles.form}>
             <Text style={styles.title}>Your Expense</Text>
             <View style={styles.inputsRow}>
-              <View style={styles.rowInputs}>
-                <Input
-                  label="Amount"
-                  textInputConfig={{
-                    keyboardType: "decimal-pad",
-                    onChangeText: handleChange("amount"),
-                    onBlur: handleBlur("amount"),
-                    value: values.amount,
-                  }}
-                />
-                {errors.amount && (
-                  <Text style={styles.errorText}>{errors.amount}</Text>
-                )}
-              </View>
-              <View style={styles.rowInputs}>
-                <Input
-                  label="Date"
-                  textInputConfig={{
-                    placeholder: "YYYY-MM-DD",
-                    maxLength: 10,
-                    onChangeText: handleChange("date"),
-                    onBlur: handleBlur("date"),
-                    value: values.date,
-                  }}
-                />
-                {errors.date && (
-                  <Text style={styles.errorText}>{errors.date}</Text>
-                )}
-              </View>
+              <Input
+                style={styles.rowInputs}
+                label="Amount"
+                textInputConfig={{
+                  keyboardType: "decimal-pad",
+                  onChangeText: handleChange("amount"),
+                  onBlur: handleBlur("amount"),
+                  value: values.amount,
+                }}
+                errorText={errors.amount}
+              />
+              <Input
+                style={styles.rowInputs}
+                label="Date"
+                textInputConfig={{
+                  placeholder: "YYYY-MM-DD",
+                  maxLength: 10,
+                  onChangeText: handleChange("date"),
+                  onBlur: handleBlur("date"),
+                  value: values.date,
+                }}
+                errorText={errors.date}
+              />
             </View>
             <Input
               label="Description"
@@ -77,10 +71,8 @@ const ExpenseForm = () => {
                 onBlur: handleBlur("description"),
                 value: values.description,
               }}
+              errorText={errors.description}
             />
-            {errors.description && (
-              <Text style={styles.errorText}>{errors.description}</Text>
-            )}
             <Button onPress={() => handleSubmit()} title="Submit" />
           </View>
         )}
@@ -106,8 +98,5 @@ const styles = StyleSheet.create({
   },
   rowInputs: {
     flex: 1,
-  },
-  errorText: {
-    color: GlobalStyles.colors.error500,
   },
 });

@@ -8,7 +8,12 @@ import {
 
 import { GlobalStyles } from "../../constants/styles";
 
-type Props = { label: string; textInputConfig: TextInputProps; style?: {} };
+type Props = {
+  label: string;
+  textInputConfig: TextInputProps;
+  errorText: string | undefined;
+  style?: {};
+};
 
 const Input = (props: Props) => {
   const inputStyle: {}[] = [styles.input];
@@ -21,6 +26,9 @@ const Input = (props: Props) => {
     <View style={[styles.inputContainer, props.style]}>
       <Text style={styles.label}>{props.label}</Text>
       <TextInput style={inputStyle} {...props.textInputConfig} />
+      {props.errorText && (
+        <Text style={styles.errorText}>*{props.errorText}</Text>
+      )}
     </View>
   );
 };
@@ -47,5 +55,8 @@ const styles = StyleSheet.create({
   inputMultiLine: {
     minHeight: 100,
     textAlignVertical: "top",
+  },
+  errorText: {
+    color: GlobalStyles.colors.error500,
   },
 });
