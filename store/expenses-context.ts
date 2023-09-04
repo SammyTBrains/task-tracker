@@ -19,7 +19,9 @@ const expenses = createSlice({
       state.expenses.unshift({ ...action.payload, id: id });
     },
     deleteExpense: (state, action) => {
-      state.expenses.filter((expense) => expense.id !== action.payload.id);
+      state.expenses = state.expenses.filter(
+        (expense) => expense.id !== action.payload.id
+      );
     },
     updateExpense: (state, action) => {
       const updatableExpenseIndex = state.expenses.findIndex(

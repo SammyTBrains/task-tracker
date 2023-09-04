@@ -2,11 +2,17 @@ import { useLayoutEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useDispatch } from "react-redux";
 
 import { RootNavParamList } from "../type-utilities/type";
 import IconButton from "../components/UI/IconButton";
 import { GlobalStyles } from "../constants/styles";
 import Button from "../components/UI/Button";
+import {
+  addExpense,
+  deleteExpense,
+  updateExpense,
+} from "../store/expenses-context";
 
 type ManageExpenseScreenRouteProp = RouteProp<
   RootNavParamList,
@@ -24,6 +30,8 @@ type Props = {
 };
 
 const ManageExpense = (props: Props) => {
+  const dispatch = useDispatch();
+
   const editExpenseId = props.route.params?.expenseId;
   const isEditing = !!editExpenseId;
 
@@ -34,6 +42,7 @@ const ManageExpense = (props: Props) => {
   }, []);
 
   const deleteExpeneHandler = () => {
+    dispatch(deleteExpense({ id: editExpenseId }));
     props.navigation.goBack();
   };
 
@@ -42,6 +51,27 @@ const ManageExpense = (props: Props) => {
   };
 
   const confirmHandler = () => {
+    if (editExpenseId) {
+      dispatch(
+        updateExpense({
+          id: editExpenseId,
+          data: {
+            description: "Desc!!!",
+            amount: 30.65,
+            date: new Date("2023-09-01"),
+          },
+        })
+      );
+    } else {
+      dispatch(
+        addExpense({
+          description: "Desc",
+          amount: 10.65,
+          date: new Date("2023-08-31"),
+        })
+      );
+    }
+
     props.navigation.goBack();
   };
 
