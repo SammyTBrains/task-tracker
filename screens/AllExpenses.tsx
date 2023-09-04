@@ -1,8 +1,15 @@
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
-import { DUMMY_EXPENSES } from "../dummy-data/dummy-expenses";
+import { useSelector } from "react-redux";
+
+import { ExpenseType } from "../type-utilities/type";
 
 const AllExpenses = () => {
-  return <ExpensesOutput expenses={DUMMY_EXPENSES} expensePeriod="Total" />;
+  const expenses = useSelector(
+    (state: { expenses: { expenses: ExpenseType[] } }) =>
+      state.expenses.expenses
+  );
+
+  return <ExpensesOutput expenses={expenses} expensePeriod="Total" />;
 };
 
 export default AllExpenses;

@@ -5,13 +5,13 @@ export const DUMMY_EXPENSES: ExpenseType[] = [
     id: "e1",
     description: "A Smart Phone",
     amount: 313.65,
-    date: new Date("2022-02-18"),
+    date: new Date("2023-09-04"),
   },
   {
     id: "e2",
     description: "A Book",
     amount: 14.99,
-    date: new Date("2023-02-10"),
+    date: new Date("2023-08-31"),
   },
   {
     id: "e3",
@@ -29,7 +29,7 @@ export const DUMMY_EXPENSES: ExpenseType[] = [
     id: "e5",
     description: "A Table",
     amount: 10.35,
-    date: new Date("2022-05-31"),
+    date: new Date("2023-09-02"),
   },
   {
     id: "e6",
