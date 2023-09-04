@@ -3,7 +3,7 @@ export type RootNavParamList = {
   AllExpenses: undefined;
   RecentExpenses: undefined;
 
-  ManageExpense: undefined;
+  ManageExpense: { expenseId: string };
 };
 
 export type ExpenseType = {

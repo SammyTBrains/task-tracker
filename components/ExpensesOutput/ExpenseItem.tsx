@@ -11,13 +11,13 @@ type ManageExpenseScreenNavigationProp = NativeStackNavigationProp<
   "ManageExpense"
 >;
 
-type Props = { description: string; date: Date; amount: number };
+type Props = { id: string; description: string; date: Date; amount: number };
 
 const ExpenseItem = (props: Props) => {
   const navigation = useNavigation<ManageExpenseScreenNavigationProp>();
 
   const expressPressHandler = () => {
-    navigation.navigate("ManageExpense");
+    navigation.navigate("ManageExpense", { expenseId: props.id });
   };
 
   return (
