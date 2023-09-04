@@ -28,7 +28,10 @@ const expenses = createSlice({
         (expense) => expense.id === action.payload.id
       );
 
-      state.expenses[updatableExpenseIndex] = action.payload.data;
+      state.expenses[updatableExpenseIndex] = {
+        ...action.payload.data,
+        id: action.payload.id,
+      };
     },
   },
 });

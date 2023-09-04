@@ -9,7 +9,13 @@ const AllExpenses = () => {
       state.expenses.expenses
   );
 
-  return <ExpensesOutput expenses={expenses} expensePeriod="Total" />;
+  return (
+    <ExpensesOutput
+      expenses={expenses}
+      expensePeriod="Total"
+      fallbacText="No registered expenses found!"
+    />
+  );
 };
 
 export default AllExpenses;
