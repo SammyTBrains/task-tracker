@@ -8,17 +8,17 @@ import {
 
 import { GlobalStyles } from "../../constants/styles";
 
-type Props = { label: string; textInputConfig: TextInputProps };
+type Props = { label: string; textInputConfig: TextInputProps; style?: {} };
 
 const Input = (props: Props) => {
-  const inputStyle: any[] = [styles.input];
+  const inputStyle: {}[] = [styles.input];
 
   if (props.textInputConfig && props.textInputConfig.multiline) {
     inputStyle.push(styles.inputMultiLine);
   }
 
   return (
-    <View style={styles.inputContainer}>
+    <View style={[styles.inputContainer, props.style]}>
       <Text style={styles.label}>{props.label}</Text>
       <TextInput style={inputStyle} {...props.textInputConfig} />
     </View>
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginHorizontal: 4,
     marginVertical: 8,
-    flex: 1,
   },
   label: {
     fontSize: 12,
