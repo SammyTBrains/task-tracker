@@ -1,9 +1,11 @@
 import { useLayoutEffect } from "react";
-import { Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { RootNavParamList } from "../type-utilities/type";
+import IconButton from "../components/UI/IconButton";
+import { GlobalStyles } from "../constants/styles";
 
 type ManageExpenseScreenRouteProp = RouteProp<
   RootNavParamList,
@@ -30,7 +32,37 @@ const ManageExpense = (props: Props) => {
     });
   }, []);
 
-  return <Text>Manage Expesne screen</Text>;
+  const deleteExpeneHandler = () => {};
+
+  return (
+    <View style={styles.container}>
+      {isEditing && (
+        <View style={styles.deleteContainer}>
+          <IconButton
+            icon="trash"
+            color={GlobalStyles.colors.error500}
+            size={36}
+            onPress={deleteExpeneHandler}
+          />
+        </View>
+      )}
+    </View>
+  );
 };
 
 export default ManageExpense;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: GlobalStyles.colors.primary800,
+  },
+  deleteContainer: {
+    marginTop: 16,
+    paddingTop: 8,
+    borderTopWidth: 2,
+    borderTopColor: GlobalStyles.colors.primary200,
+    alignItems: "center",
+  },
+});
