@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 type Props = {
-  icon: any;
+  icon: keyof typeof Ionicons.glyphMap;
   color: string | undefined;
   size: number;
   onPress: () => void;
