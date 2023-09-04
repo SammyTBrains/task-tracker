@@ -33,11 +33,17 @@ const ManageExpense = (props: Props) => {
     });
   }, []);
 
-  const deleteExpeneHandler = () => {};
+  const deleteExpeneHandler = () => {
+    props.navigation.goBack();
+  };
 
-  const cancelHandler = () => {};
+  const cancelHandler = () => {
+    props.navigation.goBack();
+  };
 
-  const confirmHandler = () => {};
+  const confirmHandler = () => {
+    props.navigation.goBack();
+  };
 
   return (
     <View style={styles.container}>
