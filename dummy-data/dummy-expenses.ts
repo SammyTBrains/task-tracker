@@ -1,7 +1,6 @@
 import { ExpenseType } from "../type-utilities/type";
 
-
-export const DUMMY_EXPENSES: ExpenseType = [
+export const DUMMY_EXPENSES: ExpenseType[] = [
   {
     id: "e1",
     description: "A Smart Phone",

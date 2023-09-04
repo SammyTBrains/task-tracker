@@ -1,5 +1,5 @@
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
-import { DUMMY_EXPENSES } from "../dummy-data/DUMMY-EXPENSES";
+import { DUMMY_EXPENSES } from "../dummy-data/dummy-expenses";
 
 const RecentExpenses = () => {
   return (
