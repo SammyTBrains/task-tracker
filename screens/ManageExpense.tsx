@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootNavParamList } from "../type-utilities/type";
 import IconButton from "../components/UI/IconButton";
 import { GlobalStyles } from "../constants/styles";
+import Button from "../components/UI/Button";
 
 type ManageExpenseScreenRouteProp = RouteProp<
   RootNavParamList,
@@ -34,8 +35,20 @@ const ManageExpense = (props: Props) => {
 
   const deleteExpeneHandler = () => {};
 
+  const cancelHandler = () => {};
+
+  const confirmHandler = () => {};
+
   return (
     <View style={styles.container}>
+      <View style={styles.buttons}>
+        <Button styles={styles.button} flat onPress={cancelHandler}>
+          Cancel
+        </Button>
+        <Button styles={styles.button} onPress={confirmHandler}>
+          {isEditing ? "Update" : "Add"}
+        </Button>
+      </View>
       {isEditing && (
         <View style={styles.deleteContainer}>
           <IconButton
@@ -57,6 +70,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     backgroundColor: GlobalStyles.colors.primary800,
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    minWidth: 120,
+    marginHorizontal: 8,
   },
   deleteContainer: {
     marginTop: 16,
