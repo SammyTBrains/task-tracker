@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, KeyboardAvoidingView, ScrollView } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
 
@@ -61,78 +61,81 @@ const ExpenseForm = (props: Props) => {
   };
 
   return (
-    <>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validationSchema={validationSchema}
-      >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-        }) => (
-          <View style={styles.form}>
-            <Text style={styles.title}>Your Expense</Text>
-            <View style={styles.inputsRow}>
+    <ScrollView style={styles.screen}>
+      <KeyboardAvoidingView style={styles.screen} behavior="position">
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+          }) => (
+            <View style={styles.form}>
+              <Text style={styles.title}>Your Expense</Text>
+              <View style={styles.inputsRow}>
+                <Input
+                  style={styles.rowInputs}
+                  label="Amount"
+                  textInputConfig={{
+                    keyboardType: "decimal-pad",
+                    onChangeText: handleChange("amount"),
+                    onBlur: handleBlur("amount"),
+                    value: values.amount,
+                  }}
+                  errorText={errors.amount}
+                  touched={touched.amount}
+                />
+                <Input
+                  style={styles.rowInputs}
+                  label="Date"
+                  textInputConfig={{
+                    placeholder: "YYYY-MM-DD",
+                    maxLength: 10,
+                    onChangeText: handleChange("date"),
+                    onBlur: handleBlur("date"),
+                    value: values.date,
+                  }}
+                  errorText={errors.date}
+                  touched={touched.date}
+                />
+              </View>
               <Input
-                style={styles.rowInputs}
-                label="Amount"
+                label="Description"
                 textInputConfig={{
-                  keyboardType: "decimal-pad",
-                  onChangeText: handleChange("amount"),
-                  onBlur: handleBlur("amount"),
-                  value: values.amount,
+                  multiline: true,
+                  onChangeText: handleChange("description"),
+                  onBlur: handleBlur("description"),
+                  value: values.description,
                 }}
-                errorText={errors.amount}
-                touched={touched.amount}
+                errorText={errors.description}
+                touched={touched.description}
               />
-              <Input
-                style={styles.rowInputs}
-                label="Date"
-                textInputConfig={{
-                  placeholder: "YYYY-MM-DD",
-                  maxLength: 10,
-                  onChangeText: handleChange("date"),
-                  onBlur: handleBlur("date"),
-                  value: values.date,
-                }}
-                errorText={errors.date}
-                touched={touched.date}
-              />
+              <View style={styles.buttons}>
+                <Button styles={styles.button} flat onPress={props.onCancel}>
+                  Cancel
+                </Button>
+                <Button styles={styles.button} onPress={() => handleSubmit()}>
+                  {props.submitButtonLabel}
+                </Button>
+              </View>
             </View>
-            <Input
-              label="Description"
-              textInputConfig={{
-                multiline: true,
-                onChangeText: handleChange("description"),
-                onBlur: handleBlur("description"),
-                value: values.description,
-              }}
-              errorText={errors.description}
-              touched={touched.description}
-            />
-            <View style={styles.buttons}>
-              <Button styles={styles.button} flat onPress={props.onCancel}>
-                Cancel
-              </Button>
-              <Button styles={styles.button} onPress={() => handleSubmit()}>
-                {props.submitButtonLabel}
-              </Button>
-            </View>
-          </View>
-        )}
-      </Formik>
-    </>
+          )}
+        </Formik>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
 export default ExpenseForm;
 
 const styles = StyleSheet.create({
+  screen: { flex: 1 },
   form: { marginTop: 40 },
   title: {
     fontSize: 24,
