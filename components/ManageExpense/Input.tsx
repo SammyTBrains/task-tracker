@@ -23,13 +23,19 @@ const Input = (props: Props) => {
     inputStyle.push(styles.inputMultiLine);
   }
 
+  const invalid = props.touched && props.errorText;
+
+  if (invalid) {
+    inputStyle.push(styles.invalidInput);
+  }
+
   return (
     <View style={[styles.inputContainer, props.style]}>
-      <Text style={styles.label}>{props.label}</Text>
+      <Text style={[styles.label, invalid && styles.invalidLabel]}>
+        {props.label}
+      </Text>
       <TextInput style={inputStyle} {...props.textInputConfig} />
-      {props.touched && props.errorText && (
-        <Text style={styles.errorText}>*{props.errorText}</Text>
-      )}
+      {invalid && <Text style={styles.errorText}>*{props.errorText}</Text>}
     </View>
   );
 };
@@ -59,5 +65,11 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: GlobalStyles.colors.error500,
+  },
+  invalidLabel: {
+    color: GlobalStyles.colors.error500,
+  },
+  invalidInput: {
+    backgroundColor: GlobalStyles.colors.error50,
   },
 });
