@@ -1,13 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ExpenseType } from "../type-utilities/type";
-import { DUMMY_EXPENSES } from "../dummy-data/dummy-expenses";
 
 type StateTypes = {
   expenses: ExpenseType[];
 };
 
 const initialState: StateTypes = {
-  expenses: DUMMY_EXPENSES,
+  expenses: [],
 };
 
 const expenses = createSlice({
@@ -18,6 +17,14 @@ const expenses = createSlice({
       const id = new Date().toString() + Math.random().toString();
       state.expenses.unshift({ ...action.payload, id: id });
     },
+    setExpenses: (state, action) => {
+      // Convert Date strings back to Date objects
+      state.expenses = action.payload.map((expense: ExpenseType) => ({
+        ...expense,
+        date: new Date(expense.date),
+      }));
+    },
+
     deleteExpense: (state, action) => {
       state.expenses = state.expenses.filter(
         (expense) => expense.id !== action.payload.id
@@ -37,6 +44,7 @@ const expenses = createSlice({
 });
 
 export const addExpense = expenses.actions.addExpense;
+export const setExpenses = expenses.actions.setExpenses;
 export const deleteExpense = expenses.actions.deleteExpense;
 export const updateExpense = expenses.actions.updateExpense;
 export default expenses.reducer;

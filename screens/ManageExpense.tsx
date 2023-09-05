@@ -7,14 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { ExpenseType, RootNavParamList } from "../type-utilities/type";
 import IconButton from "../components/UI/IconButton";
 import { GlobalStyles } from "../constants/styles";
-
 import {
   addExpense,
   deleteExpense,
   updateExpense,
 } from "../store/expenses-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
-import { storeExpesne } from "../util/http";
+import { storeExpense } from "../util/http";
 
 type ManageExpenseScreenRouteProp = RouteProp<
   RootNavParamList,
@@ -69,7 +68,7 @@ const ManageExpense = (props: Props) => {
         })
       );
     } else {
-      storeExpesne(expenseData);
+      storeExpense(expenseData);
       dispatch(addExpense(expenseData));
     }
 
