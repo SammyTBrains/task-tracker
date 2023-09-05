@@ -14,6 +14,7 @@ import {
   updateExpense,
 } from "../store/expenses-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
+import { storeExpesne } from "../util/http";
 
 type ManageExpenseScreenRouteProp = RouteProp<
   RootNavParamList,
@@ -68,6 +69,7 @@ const ManageExpense = (props: Props) => {
         })
       );
     } else {
+      storeExpesne(expenseData);
       dispatch(addExpense(expenseData));
     }
 
