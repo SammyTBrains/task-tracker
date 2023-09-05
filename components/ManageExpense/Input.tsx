@@ -13,6 +13,7 @@ type Props = {
   textInputConfig: TextInputProps;
   errorText: string | undefined;
   style?: {};
+  touched: any;
 };
 
 const Input = (props: Props) => {
@@ -26,7 +27,7 @@ const Input = (props: Props) => {
     <View style={[styles.inputContainer, props.style]}>
       <Text style={styles.label}>{props.label}</Text>
       <TextInput style={inputStyle} {...props.textInputConfig} />
-      {props.errorText && (
+      {props.touched && props.errorText && (
         <Text style={styles.errorText}>*{props.errorText}</Text>
       )}
     </View>

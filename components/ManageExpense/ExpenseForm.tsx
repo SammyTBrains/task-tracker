@@ -21,9 +21,23 @@ type FormValues = {
 };
 
 const validationSchema = yup.object().shape({
-  amount: yup.string().required(),
-  date: yup.string().required(),
-  description: yup.string().required(),
+  amount: yup
+    .string()
+    .required("Amount is required")
+    .test(
+      "is-number",
+      "Amount must be a valid number",
+      (value) => !isNaN(parseFloat(value))
+    ),
+  date: yup
+    .string()
+    .required("Date is required")
+    .test(
+      "is-date",
+      "Date must be a valid date",
+      (value) => !isNaN(Date.parse(value))
+    ),
+  description: yup.string().required("Description is required"),
 });
 
 const ExpenseForm = (props: Props) => {
@@ -53,7 +67,14 @@ const ExpenseForm = (props: Props) => {
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+        }) => (
           <View style={styles.form}>
             <Text style={styles.title}>Your Expense</Text>
             <View style={styles.inputsRow}>
@@ -67,6 +88,7 @@ const ExpenseForm = (props: Props) => {
                   value: values.amount,
                 }}
                 errorText={errors.amount}
+                touched={touched.amount}
               />
               <Input
                 style={styles.rowInputs}
@@ -79,6 +101,7 @@ const ExpenseForm = (props: Props) => {
                   value: values.date,
                 }}
                 errorText={errors.date}
+                touched={touched.date}
               />
             </View>
             <Input
@@ -90,6 +113,7 @@ const ExpenseForm = (props: Props) => {
                 value: values.description,
               }}
               errorText={errors.description}
+              touched={touched.description}
             />
             <View style={styles.buttons}>
               <Button styles={styles.button} flat onPress={props.onCancel}>
