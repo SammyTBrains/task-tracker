@@ -2,7 +2,7 @@ import { useLayoutEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ExpenseType, RootNavParamList } from "../type-utilities/type";
 import IconButton from "../components/UI/IconButton";
@@ -32,9 +32,17 @@ type Props = {
 
 const ManageExpense = (props: Props) => {
   const dispatch = useDispatch();
+  const expenses = useSelector(
+    (state: { expenses: { expenses: ExpenseType[] } }) =>
+      state.expenses.expenses
+  );
 
   const editExpenseId = props.route.params?.expenseId;
   const isEditing = !!editExpenseId;
+
+  const selectedExpense = expenses.find(
+    (expense) => expense.id === editExpenseId
+  );
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -72,6 +80,7 @@ const ManageExpense = (props: Props) => {
         submitButtonLabel={isEditing ? "Update" : "Add"}
         onCancel={cancelHandler}
         onSubmit={confirmHandler}
+        defaultExpense={selectedExpense}
       />
       {isEditing && (
         <View style={styles.deleteContainer}>

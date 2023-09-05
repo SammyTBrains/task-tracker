@@ -5,23 +5,19 @@ import * as yup from "yup";
 import Input from "./Input";
 import Button from "../UI/Button";
 import { ExpenseType } from "../../type-utilities/type";
+import { getFormattedDate } from "../../util/date";
 
 type Props = {
   submitButtonLabel: string;
   onCancel: () => void;
   onSubmit: (expenseData: ExpenseType) => void;
+  defaultExpense: ExpenseType | undefined;
 };
 
 type FormValues = {
   amount: string;
   date: string;
   description: string;
-};
-
-const initialValues: FormValues = {
-  amount: "",
-  date: "",
-  description: "",
 };
 
 const validationSchema = yup.object().shape({
@@ -31,6 +27,14 @@ const validationSchema = yup.object().shape({
 });
 
 const ExpenseForm = (props: Props) => {
+  const initialValues: FormValues = {
+    amount: props.defaultExpense ? props.defaultExpense.amount.toString() : "",
+    date: props.defaultExpense
+      ? getFormattedDate(props.defaultExpense.date)
+      : "",
+    description: props.defaultExpense ? props.defaultExpense.description : "",
+  };
+
   const onSubmit = (values: FormValues) => {
     const expenseData = {
       id: "",
