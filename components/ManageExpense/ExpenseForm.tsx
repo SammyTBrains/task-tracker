@@ -1,9 +1,16 @@
-import { StyleSheet, View, Text, Button, TextInput } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
 
 import Input from "./Input";
-import { GlobalStyles } from "../../constants/styles";
+import Button from "../UI/Button";
+import { ExpenseType } from "../../type-utilities/type";
+
+type Props = {
+  submitButtonLabel: string;
+  onCancel: () => void;
+  onSubmit: (expenseData: ExpenseType) => void;
+};
 
 type FormValues = {
   amount: string;
@@ -17,17 +24,24 @@ const initialValues: FormValues = {
   description: "",
 };
 
-const onSubmit = (values: FormValues) => {
-  console.log(values);
-};
-
 const validationSchema = yup.object().shape({
   amount: yup.string().required(),
   date: yup.string().required(),
   description: yup.string().required(),
 });
 
-const ExpenseForm = () => {
+const ExpenseForm = (props: Props) => {
+  const onSubmit = (values: FormValues) => {
+    const expenseData = {
+      id: "",
+      amount: +values.amount,
+      date: new Date(values.date),
+      description: values.description,
+    };
+
+    props.onSubmit(expenseData);
+  };
+
   return (
     <>
       <Formik
@@ -73,7 +87,14 @@ const ExpenseForm = () => {
               }}
               errorText={errors.description}
             />
-            <Button onPress={() => handleSubmit()} title="Submit" />
+            <View style={styles.buttons}>
+              <Button styles={styles.button} flat onPress={props.onCancel}>
+                Cancel
+              </Button>
+              <Button styles={styles.button} onPress={() => handleSubmit()}>
+                {props.submitButtonLabel}
+              </Button>
+            </View>
           </View>
         )}
       </Formik>
@@ -98,5 +119,14 @@ const styles = StyleSheet.create({
   },
   rowInputs: {
     flex: 1,
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    minWidth: 120,
+    marginHorizontal: 8,
   },
 });

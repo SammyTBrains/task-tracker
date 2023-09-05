@@ -4,10 +4,10 @@ import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useDispatch } from "react-redux";
 
-import { RootNavParamList } from "../type-utilities/type";
+import { ExpenseType, RootNavParamList } from "../type-utilities/type";
 import IconButton from "../components/UI/IconButton";
 import { GlobalStyles } from "../constants/styles";
-import Button from "../components/UI/Button";
+
 import {
   addExpense,
   deleteExpense,
@@ -51,26 +51,16 @@ const ManageExpense = (props: Props) => {
     props.navigation.goBack();
   };
 
-  const confirmHandler = () => {
+  const confirmHandler = (expenseData: ExpenseType) => {
     if (editExpenseId) {
       dispatch(
         updateExpense({
           id: editExpenseId,
-          data: {
-            description: "Desc!!!",
-            amount: 30.65,
-            date: new Date("2023-09-01"),
-          },
+          data: expenseData,
         })
       );
     } else {
-      dispatch(
-        addExpense({
-          description: "Desc",
-          amount: 10.65,
-          date: new Date("2023-08-31"),
-        })
-      );
+      dispatch(addExpense(expenseData));
     }
 
     props.navigation.goBack();
@@ -78,15 +68,11 @@ const ManageExpense = (props: Props) => {
 
   return (
     <View style={styles.container}>
-      <ExpenseForm />
-      <View style={styles.buttons}>
-        <Button styles={styles.button} flat onPress={cancelHandler}>
-          Cancel
-        </Button>
-        <Button styles={styles.button} onPress={confirmHandler}>
-          {isEditing ? "Update" : "Add"}
-        </Button>
-      </View>
+      <ExpenseForm
+        submitButtonLabel={isEditing ? "Update" : "Add"}
+        onCancel={cancelHandler}
+        onSubmit={confirmHandler}
+      />
       {isEditing && (
         <View style={styles.deleteContainer}>
           <IconButton
@@ -108,15 +94,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     backgroundColor: GlobalStyles.colors.primary800,
-  },
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    minWidth: 120,
-    marginHorizontal: 8,
   },
   deleteContainer: {
     marginTop: 16,
