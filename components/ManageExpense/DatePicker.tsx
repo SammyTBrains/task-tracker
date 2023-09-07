@@ -11,27 +11,37 @@ import { getFormattedDate } from "../../util/date";
 import { GlobalStyles } from "../../constants/styles";
 
 type Props = {
+  setFieldValue: (fieldName: string, value: string) => void;
+  setFieldTouched: (fieldName: string, bool: boolean) => void;
+  value: string;
   style?: {};
 };
 
 const DatePicker = (props: Props) => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
-
+  const resolveDefaultDate = () =>
+    props.value === "" ? new Date() : new Date(props.value);
+  const [date, setDate] = useState<Date | undefined>(resolveDefaultDate());
   const [show, setShow] = useState(false);
 
   const onChange = (
     event: DateTimePickerEvent,
     selectedDate: Date | undefined
   ) => {
+    console.log("Change ihgjhnlk", selectedDate);
     const currentDate = selectedDate;
     Platform.OS !== "android" && setShow(false);
     setDate(currentDate);
+    props.setFieldValue(
+      "date",
+      getFormattedDate(selectedDate ? selectedDate : resolveDefaultDate())
+    );
+    props.setFieldTouched("date", true);
   };
 
   const showDatepicker = () => {
     if (Platform.OS === "android") {
       DateTimePickerAndroid.open({
-        value: date ? date : new Date(),
+        value: date ? date : resolveDefaultDate(),
         onChange,
         mode: "date",
         is24Hour: true,
@@ -46,7 +56,7 @@ const DatePicker = (props: Props) => {
       <Text style={styles.label}>Date</Text>
       <View style={styles.datePicker}>
         <Text style={styles.dateText}>
-          {getFormattedDate(date ? date : new Date())}
+          {getFormattedDate(date ? date : resolveDefaultDate())}
         </Text>
         <View style={styles.buttonContainer}>
           <Button onPress={showDatepicker}>
@@ -56,7 +66,7 @@ const DatePicker = (props: Props) => {
         {Platform.OS !== "android" && show && (
           <DateTimePicker
             testID="dateTimePicker"
-            value={date ? date : new Date()}
+            value={date ? date : resolveDefaultDate()}
             mode={"date"}
             is24Hour={true}
             onChange={onChange}

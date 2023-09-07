@@ -85,6 +85,8 @@ const ExpenseForm = (props: Props) => {
             values,
             errors,
             touched,
+            setFieldValue,
+            setFieldTouched,
           }) => (
             <View style={styles.form}>
               <Text style={styles.title}>Your Expense</Text>
@@ -103,18 +105,17 @@ const ExpenseForm = (props: Props) => {
                 />
                 {/* <Input
                  
-                  label="Date"
-                  textInputConfig={{
-                    placeholder: "YYYY-MM-DD",
-                    maxLength: 10,
-                    onChangeText: handleChange("date"),
-                    onBlur: handleBlur("date"),
-                    value: values.date,
-                  }}
+                 
+                 
                   errorText={errors.date}
                   touched={touched.date}
                 /> */}
-                <DatePicker style={styles.rowInputs} />
+                <DatePicker
+                  style={styles.rowInputs}
+                  setFieldValue={setFieldValue}
+                  setFieldTouched={setFieldTouched}
+                  value={values.date}
+                />
               </View>
               <Input
                 label="Description"
