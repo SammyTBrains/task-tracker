@@ -2,7 +2,7 @@ import axios from "axios";
 import { ExpenseTypeWithStringDate } from "../type-utilities/type";
 
 const BACKEND_URL =
-  "https://expense-tracker-2a1b2-default-rtdb.europe-west1.firebasedatabase.app";
+  "https://expense-tracker-2a1b2-default-rtdb.europe-west1.firebasedatabaseapp";
 
 export const storeExpense = async (expenseData: ExpenseTypeWithStringDate) => {
   const response = await axios.post(

@@ -23,6 +23,7 @@ import {
 } from "../util/http";
 import { deserializeExpenseDataDate } from "../util/date";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 type ManageExpenseScreenRouteProp = RouteProp<
   RootNavParamList,
@@ -44,6 +45,7 @@ const ManageExpense = (props: Props) => {
   const expenses = deserializeExpenseDataDate();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const editExpenseId = props.route.params?.expenseId;
   const isEditing = !!editExpenseId;
@@ -60,9 +62,14 @@ const ManageExpense = (props: Props) => {
 
   const deleteExpeneHandler = async () => {
     setIsSubmitting(true);
-    await deleteExpenseOnDB(editExpenseId);
-    dispatch(deleteExpense({ id: editExpenseId }));
-    props.navigation.goBack();
+    try {
+      await deleteExpenseOnDB(editExpenseId);
+      dispatch(deleteExpense({ id: editExpenseId }));
+      props.navigation.goBack();
+    } catch (error) {
+      setError("Could not delete expense - please try again!");
+      setIsSubmitting(false);
+    }
   };
 
   const cancelHandler = () => {
@@ -71,24 +78,32 @@ const ManageExpense = (props: Props) => {
 
   const confirmHandler = async (expenseData: ExpenseTypeWithStringDate) => {
     setIsSubmitting(true);
-    if (editExpenseId) {
-      dispatch(
-        updateExpense({
-          id: editExpenseId,
-          data: expenseData,
-        })
-      );
-      await updateExpenseOnDB(editExpenseId, expenseData);
-    } else {
-      const id = await storeExpense(expenseData);
-      dispatch(addExpense({ ...expenseData, id: id }));
+    try {
+      if (editExpenseId) {
+        dispatch(
+          updateExpense({
+            id: editExpenseId,
+            data: expenseData,
+          })
+        );
+        await updateExpenseOnDB(editExpenseId, expenseData);
+      } else {
+        const id = await storeExpense(expenseData);
+        dispatch(addExpense({ ...expenseData, id: id }));
+      }
+      props.navigation.goBack();
+    } catch (error) {
+      setError("Could not submit data - please try again!");
+      setIsSubmitting(false);
     }
-
-    props.navigation.goBack();
   };
 
   if (isSubmitting) {
     return <LoadingOverlay />;
+  }
+
+  if (error && !isSubmitting) {
+    return <ErrorOverlay message={error} />;
   }
 
   return (
