@@ -15,6 +15,7 @@ import {
   ExpenseTypeWithStringDate,
 } from "../../type-utilities/type";
 import { getFormattedDate } from "../../util/date";
+import DatePicker from "./DatePicker";
 
 type Props = {
   submitButtonLabel: string;
@@ -100,8 +101,8 @@ const ExpenseForm = (props: Props) => {
                   errorText={errors.amount}
                   touched={touched.amount}
                 />
-                <Input
-                  style={styles.rowInputs}
+                {/* <Input
+                 
                   label="Date"
                   textInputConfig={{
                     placeholder: "YYYY-MM-DD",
@@ -112,7 +113,8 @@ const ExpenseForm = (props: Props) => {
                   }}
                   errorText={errors.date}
                   touched={touched.date}
-                />
+                /> */}
+                <DatePicker style={styles.rowInputs} />
               </View>
               <Input
                 label="Description"
