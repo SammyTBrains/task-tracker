@@ -103,13 +103,6 @@ const ExpenseForm = (props: Props) => {
                   errorText={errors.amount}
                   touched={touched.amount}
                 />
-                {/* <Input
-                 
-                 
-                 
-                  errorText={errors.date}
-                  touched={touched.date}
-                /> */}
                 <DatePicker
                   style={styles.rowInputs}
                   setFieldValue={setFieldValue}

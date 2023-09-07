@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DateTimePicker, {
   DateTimePickerAndroid,
   DateTimePickerEvent,
@@ -23,11 +23,15 @@ const DatePicker = (props: Props) => {
   const [date, setDate] = useState<Date | undefined>(resolveDefaultDate());
   const [show, setShow] = useState(false);
 
+  useEffect(() => {
+    props.setFieldValue("date", getFormattedDate(resolveDefaultDate()));
+    props.setFieldTouched("date", true);
+  }, []);
+
   const onChange = (
     event: DateTimePickerEvent,
     selectedDate: Date | undefined
   ) => {
-    console.log("Change ihgjhnlk", selectedDate);
     const currentDate = selectedDate;
     Platform.OS !== "android" && setShow(false);
     setDate(currentDate);
