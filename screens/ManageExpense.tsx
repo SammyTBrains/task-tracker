@@ -16,7 +16,11 @@ import {
   updateExpense,
 } from "../store/expenses-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
-import { storeExpense } from "../util/http";
+import {
+  storeExpense,
+  updateExpense as updateExpenseOnDB,
+  deleteExpense as deleteExpenseOnDB,
+} from "../util/http";
 import { deserializeExpenseDataDate } from "../util/date";
 
 type ManageExpenseScreenRouteProp = RouteProp<
@@ -51,7 +55,8 @@ const ManageExpense = (props: Props) => {
     });
   }, []);
 
-  const deleteExpeneHandler = () => {
+  const deleteExpeneHandler = async () => {
+    await deleteExpenseOnDB(editExpenseId);
     dispatch(deleteExpense({ id: editExpenseId }));
     props.navigation.goBack();
   };
@@ -68,6 +73,7 @@ const ManageExpense = (props: Props) => {
           data: expenseData,
         })
       );
+      await updateExpenseOnDB(editExpenseId, expenseData);
     } else {
       const id = await storeExpense(expenseData);
       dispatch(addExpense({ ...expenseData, id: id }));
