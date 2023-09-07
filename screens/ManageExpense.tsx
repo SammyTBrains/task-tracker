@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -22,6 +22,7 @@ import {
   deleteExpense as deleteExpenseOnDB,
 } from "../util/http";
 import { deserializeExpenseDataDate } from "../util/date";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
 
 type ManageExpenseScreenRouteProp = RouteProp<
   RootNavParamList,
@@ -42,6 +43,8 @@ const ManageExpense = (props: Props) => {
   const dispatch = useDispatch();
   const expenses = deserializeExpenseDataDate();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const editExpenseId = props.route.params?.expenseId;
   const isEditing = !!editExpenseId;
 
@@ -56,6 +59,7 @@ const ManageExpense = (props: Props) => {
   }, []);
 
   const deleteExpeneHandler = async () => {
+    setIsSubmitting(true);
     await deleteExpenseOnDB(editExpenseId);
     dispatch(deleteExpense({ id: editExpenseId }));
     props.navigation.goBack();
@@ -66,6 +70,7 @@ const ManageExpense = (props: Props) => {
   };
 
   const confirmHandler = async (expenseData: ExpenseTypeWithStringDate) => {
+    setIsSubmitting(true);
     if (editExpenseId) {
       dispatch(
         updateExpense({
@@ -81,6 +86,10 @@ const ManageExpense = (props: Props) => {
 
     props.navigation.goBack();
   };
+
+  if (isSubmitting) {
+    return <LoadingOverlay />;
+  }
 
   return (
     <View style={styles.container}>

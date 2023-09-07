@@ -1,23 +1,32 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
 import { useDispatch } from "react-redux";
 
 import { deserializeExpenseDataDate, getDateMinusDays } from "../util/date";
 import { fetchExpenses } from "../util/http";
 import { setExpenses } from "../store/expenses-context";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
 
 const RecentExpenses = () => {
   const dispatch = useDispatch();
   const expenses = deserializeExpenseDataDate();
+
+  const [isFetchingExpenses, setIsFetchingExpenses] = useState<boolean>();
+
   useEffect(() => {
     const getExpenses = async () => {
+      setIsFetchingExpenses(true);
       const expenses = await fetchExpenses();
-
       dispatch(setExpenses(expenses));
+      setIsFetchingExpenses(false);
     };
 
     getExpenses();
   }, []);
+
+  if (isFetchingExpenses) {
+    return <LoadingOverlay />;
+  }
 
   const recentExpenses = expenses.filter((expense) => {
     const today = new Date();
