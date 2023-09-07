@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ExpenseType } from "../type-utilities/type";
 
 type StateTypes = {
-  expenses: ExpenseType[];
+  expenses: ExpenseType[]; //date is actually a string for and from redux
 };
 
 const initialState: StateTypes = {
@@ -18,13 +18,8 @@ const expenses = createSlice({
       state.expenses.unshift({ ...action.payload, id: id });
     },
     setExpenses: (state, action) => {
-      // Convert Date strings back to Date objects
-      state.expenses = action.payload.map((expense: ExpenseType) => ({
-        ...expense,
-        date: new Date(expense.date),
-      }));
+      state.expenses = action.payload.reverse();
     },
-
     deleteExpense: (state, action) => {
       state.expenses = state.expenses.filter(
         (expense) => expense.id !== action.payload.id

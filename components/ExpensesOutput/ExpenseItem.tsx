@@ -4,16 +4,14 @@ import { getFormattedDate } from "../../util/date";
 import { useNavigation } from "@react-navigation/native";
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootNavParamList } from "../../type-utilities/type";
+import { ExpenseType, RootNavParamList } from "../../type-utilities/type";
 
 type ManageExpenseScreenNavigationProp = NativeStackNavigationProp<
   RootNavParamList,
   "ManageExpense"
 >;
 
-type Props = { id: string; description: string; date: Date; amount: number };
-
-const ExpenseItem = (props: Props) => {
+const ExpenseItem = (props: ExpenseType) => {
   const navigation = useNavigation<ManageExpenseScreenNavigationProp>();
 
   const expressPressHandler = () => {

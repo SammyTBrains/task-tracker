@@ -21,7 +21,6 @@ export const fetchExpenses = async () => {
       description: response.data[key].description,
     };
 
-    console.log("The DATE!!!", typeof expenseObj.date);
     expenses.push(expenseObj);
   }
 
