@@ -48,9 +48,11 @@ const DatePicker = (props: Props) => {
         <Text style={styles.dateText}>
           {getFormattedDate(date ? date : new Date())}
         </Text>
-        <Button onPress={showDatepicker}>
-          <Ionicons name="calendar" color="white" size={22} />
-        </Button>
+        <View style={styles.buttonContainer}>
+          <Button onPress={showDatepicker}>
+            <Ionicons name="calendar" color="white" size={22} />
+          </Button>
+        </View>
         {Platform.OS !== "android" && show && (
           <DateTimePicker
             testID="dateTimePicker"
@@ -83,11 +85,15 @@ const styles = StyleSheet.create({
     backgroundColor: GlobalStyles.colors.primary100,
     paddingLeft: 6,
     borderRadius: 6,
+    overflow: "hidden",
   },
   dateText: {
     fontSize: 18,
     color: GlobalStyles.colors.primary700,
     marginBottom: 4,
     textAlign: "center",
+  },
+  buttonContainer: {
+    backgroundColor: GlobalStyles.colors.primary500,
   },
 });
