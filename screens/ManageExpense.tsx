@@ -103,7 +103,13 @@ const ManageExpense = (props: Props) => {
   }
 
   if (error && !isSubmitting) {
-    return <ErrorOverlay message={error} />;
+    return (
+      <ErrorOverlay
+        message={error}
+        buttonText="Retry!"
+        onConfirm={() => setError(null)}
+      />
+    );
   }
 
   return (

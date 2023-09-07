@@ -17,25 +17,32 @@ const RecentExpenses = () => {
 
   useEffect(() => {
     const getExpenses = async () => {
-      setIsFetchingExpenses(true);
-      try {
-        const expenses = await fetchExpenses();
-        dispatch(setExpenses(expenses));
-      } catch (error) {
-        setError("Could not fetch expenses!");
-      }
-      setIsFetchingExpenses(false);
+      await getData();
     };
 
     getExpenses();
   }, []);
+
+  const getData = async () => {
+    setIsFetchingExpenses(true);
+    try {
+      const expenses = await fetchExpenses();
+      dispatch(setExpenses(expenses));
+      setError(null);
+    } catch (error) {
+      setError("Could not fetch expenses!");
+    }
+    setIsFetchingExpenses(false);
+  };
 
   if (isFetchingExpenses) {
     return <LoadingOverlay />;
   }
 
   if (error && !isFetchingExpenses) {
-    return <ErrorOverlay message={error} />;
+    return (
+      <ErrorOverlay message={error} buttonText="Retry!" onConfirm={getData} />
+    );
   }
 
   const recentExpenses = expenses.filter((expense) => {

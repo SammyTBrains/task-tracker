@@ -1,11 +1,12 @@
 import { Text, StyleSheet, View } from "react-native";
 
 import { GlobalStyles } from "../../constants/styles";
-
+import Button from "./Button";
 
 type Props = {
   message: string;
-
+  buttonText: string;
+  onConfirm: () => void;
 };
 
 const ErrorOverlay = (props: Props) => {
@@ -13,7 +14,7 @@ const ErrorOverlay = (props: Props) => {
     <View style={styles.container}>
       <Text style={[styles.text, styles.title]}>An error occured!</Text>
       <Text style={styles.text}>{props.message}</Text>
-
+      <Button onPress={props.onConfirm}>{props.buttonText}</Button>
     </View>
   );
 };
