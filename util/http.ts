@@ -1,20 +1,25 @@
 import axios from "axios";
-import { ExpenseType } from "../type-utilities/type";
+import { ExpenseTypeWithStringDate } from "../type-utilities/type";
 
 const BACKEND_URL =
   "https://expense-tracker-2a1b2-default-rtdb.europe-west1.firebasedatabase.app";
 
-export const storeExpense = (expenseData: ExpenseType) => {
-  axios.post(BACKEND_URL + "/expenses.json", expenseData);
+export const storeExpense = async (expenseData: ExpenseTypeWithStringDate) => {
+  const response = await axios.post(
+    BACKEND_URL + "/expenses.json",
+    expenseData
+  );
+  const id = response.data.name;
+  return id;
 };
 
 export const fetchExpenses = async () => {
   const response = await axios.get(BACKEND_URL + "/expenses.json");
 
-  const expenses: ExpenseType[] = [];
+  const expenses: ExpenseTypeWithStringDate[] = [];
 
   for (const key in response.data) {
-    const expenseObj: ExpenseType = {
+    const expenseObj: ExpenseTypeWithStringDate = {
       id: key,
       amount: response.data[key].amount,
       date: response.data[key].date,

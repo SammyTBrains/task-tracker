@@ -2,9 +2,12 @@ import { useLayoutEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { ExpenseType, RootNavParamList } from "../type-utilities/type";
+import {
+  ExpenseTypeWithStringDate,
+  RootNavParamList,
+} from "../type-utilities/type";
 import IconButton from "../components/UI/IconButton";
 import { GlobalStyles } from "../constants/styles";
 import {
@@ -14,6 +17,7 @@ import {
 } from "../store/expenses-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 import { storeExpense } from "../util/http";
+import { deserializeExpenseDataDate } from "../util/date";
 
 type ManageExpenseScreenRouteProp = RouteProp<
   RootNavParamList,
@@ -32,10 +36,7 @@ type Props = {
 
 const ManageExpense = (props: Props) => {
   const dispatch = useDispatch();
-  const expenses = useSelector(
-    (state: { expenses: { expenses: ExpenseType[] } }) =>
-      state.expenses.expenses
-  );
+  const expenses = deserializeExpenseDataDate();
 
   const editExpenseId = props.route.params?.expenseId;
   const isEditing = !!editExpenseId;
@@ -59,7 +60,7 @@ const ManageExpense = (props: Props) => {
     props.navigation.goBack();
   };
 
-  const confirmHandler = (expenseData: ExpenseType) => {
+  const confirmHandler = async (expenseData: ExpenseTypeWithStringDate) => {
     if (editExpenseId) {
       dispatch(
         updateExpense({
@@ -68,8 +69,8 @@ const ManageExpense = (props: Props) => {
         })
       );
     } else {
-      storeExpense(expenseData);
-      dispatch(addExpense(expenseData));
+      const id = await storeExpense(expenseData);
+      dispatch(addExpense({ ...expenseData, id: id }));
     }
 
     props.navigation.goBack();

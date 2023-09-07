@@ -10,13 +10,16 @@ import * as yup from "yup";
 
 import Input from "./Input";
 import Button from "../UI/Button";
-import { ExpenseType } from "../../type-utilities/type";
+import {
+  ExpenseType,
+  ExpenseTypeWithStringDate,
+} from "../../type-utilities/type";
 import { getFormattedDate } from "../../util/date";
 
 type Props = {
   submitButtonLabel: string;
   onCancel: () => void;
-  onSubmit: (expenseData: ExpenseType) => void;
+  onSubmit: (expenseData: ExpenseTypeWithStringDate) => void;
   defaultExpense: ExpenseType | undefined;
 };
 
@@ -59,7 +62,7 @@ const ExpenseForm = (props: Props) => {
     const expenseData = {
       id: "",
       amount: +values.amount,
-      date: new Date(values.date),
+      date: values.date,
       description: values.description,
     };
 

@@ -1,13 +1,9 @@
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
-import { useSelector } from "react-redux";
 
-import { ExpenseType } from "../type-utilities/type";
+import { deserializeExpenseDataDate } from "../util/date";
 
 const AllExpenses = () => {
-  const expenses = useSelector(
-    (state: { expenses: { expenses: ExpenseType[] } }) =>
-      state.expenses.expenses
-  );
+  const expenses = deserializeExpenseDataDate();
 
   return (
     <ExpensesOutput

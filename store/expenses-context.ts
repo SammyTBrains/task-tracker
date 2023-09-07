@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ExpenseType } from "../type-utilities/type";
+import { ExpenseTypeWithStringDate } from "../type-utilities/type";
 
 type StateTypes = {
-  expenses: ExpenseType[]; //date is actually a string for and from redux
+  expenses: ExpenseTypeWithStringDate[]; //date is actually a string for and from redux
 };
 
 const initialState: StateTypes = {
@@ -14,8 +14,7 @@ const expenses = createSlice({
   initialState,
   reducers: {
     addExpense: (state, action) => {
-      const id = new Date().toString() + Math.random().toString();
-      state.expenses.unshift({ ...action.payload, id: id });
+      state.expenses.unshift(action.payload);
     },
     setExpenses: (state, action) => {
       state.expenses = action.payload.reverse();
