@@ -8,13 +8,21 @@ type Props = {
   expenses: ExpenseType[];
   expensePeriod: string;
   fallbacText: string;
+  onRefresh?: () => void;
+  refreshing?: boolean;
 };
 
 const ExpensesOutput = (props: Props) => {
   let content = <Text style={styles.infoText}>{props.fallbacText}</Text>;
 
   if (props.expenses.length > 0) {
-    content = <ExpensesList expenses={props.expenses} />;
+    content = (
+      <ExpensesList
+        expenses={props.expenses}
+        onRefresh={props.onRefresh}
+        refreshing={props.refreshing}
+      />
+    );
   }
 
   return (

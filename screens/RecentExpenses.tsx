@@ -57,6 +57,8 @@ const RecentExpenses = () => {
       expenses={recentExpenses}
       expensePeriod="Last 7 days"
       fallbacText="No expenses registered in the last 7 days!"
+      onRefresh={getData}
+      refreshing={isFetchingExpenses}
     />
   );
 };

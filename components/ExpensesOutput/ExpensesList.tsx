@@ -1,8 +1,13 @@
+import { useState } from "react";
 import { FlatList, Text } from "react-native";
 import { ExpenseType } from "../../type-utilities/type";
 import ExpenseItem from "./ExpenseItem";
 
-type Props = { expenses: ExpenseType[] };
+type Props = {
+  expenses: ExpenseType[];
+  onRefresh?: () => void;
+  refreshing?: boolean;
+};
 
 const ExpensesList = (props: Props) => {
   const renderExpenseItem = (itemData: { item: ExpenseType }) => (
@@ -14,6 +19,8 @@ const ExpensesList = (props: Props) => {
       data={props.expenses}
       keyExtractor={(item) => item.id}
       renderItem={renderExpenseItem}
+      onRefresh={props.onRefresh}
+      refreshing={props.refreshing}
     />
   );
 };
