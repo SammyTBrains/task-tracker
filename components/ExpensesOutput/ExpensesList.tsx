@@ -21,6 +21,7 @@ const ExpensesList = (props: Props) => {
       renderItem={renderExpenseItem}
       onRefresh={props.onRefresh}
       refreshing={props.refreshing}
+      showsVerticalScrollIndicator={false}
     />
   );
 };
