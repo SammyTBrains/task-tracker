@@ -14,10 +14,17 @@ const ExpensesSummary = (props: Props) => {
     0
   );
 
+  // Format the amount with commas using toLocaleString()
+  const formattedAmount = expenseSum.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD", // Replace 'USD' with your desired currency code
+    minimumFractionDigits: 2, // Adjust for desired decimal places
+  });
+
   return (
     <View style={styles.container}>
       <Text style={styles.period}>{props.expensePeriod}</Text>
-      <Text style={styles.sum}>${expenseSum.toFixed(2)}</Text>
+      <Text style={styles.sum}>{formattedAmount}</Text>
     </View>
   );
 };

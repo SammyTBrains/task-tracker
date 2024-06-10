@@ -18,6 +18,13 @@ const ExpenseItem = (props: ExpenseType) => {
     navigation.navigate("ManageExpense", { expenseId: props.id });
   };
 
+  // Format the amount with commas using toLocaleString()
+  const formattedAmount = props.amount.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD", // Replace 'USD' with your desired currency code
+    minimumFractionDigits: 2, // Adjust for desired decimal places
+  });
+
   return (
     <Pressable
       onPress={expressPressHandler}
@@ -31,7 +38,7 @@ const ExpenseItem = (props: ExpenseType) => {
           <Text style={styles.textBase}>{getFormattedDate(props.date)}</Text>
         </View>
         <View style={styles.amountContainer}>
-          <Text style={styles.amount}>{props.amount.toFixed(2)}</Text>
+          <Text style={styles.amount}>{formattedAmount}</Text>
         </View>
       </View>
     </Pressable>
