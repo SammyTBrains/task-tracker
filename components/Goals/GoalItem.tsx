@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
+import { GlobalStyles } from "../../constants/styles";
 
 type Props = {
   text: string;
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
   goalItem: {
     margin: 8,
     borderRadius: 6,
-    backgroundColor: "#170acc",
+    backgroundColor: GlobalStyles.colors.primary500,
   },
   presesdItem: {
     opacity: 0.5,
@@ -34,5 +35,7 @@ const styles = StyleSheet.create({
   goalText: {
     color: "white",
     padding: 8,
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

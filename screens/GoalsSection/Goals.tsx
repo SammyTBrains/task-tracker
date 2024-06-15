@@ -3,6 +3,7 @@ import { Button, FlatList, StyleSheet, View } from "react-native";
 import GoalItem from "../../components/Goals/GoalItem";
 import GoalInput from "../../components/Goals/GoalInput";
 import { StatusBar } from "expo-status-bar";
+import { GlobalStyles } from "../../constants/styles";
 
 type GoalsType = { text: string; id: string };
 
@@ -41,7 +42,7 @@ const Goals = () => {
       <View style={styles.appContainer}>
         <Button
           title="Add New Goal"
-          color="#170acc"
+          color={GlobalStyles.colors.primary800}
           onPress={modalToggleVisibilityHandler}
         />
         <GoalInput
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 50,
     paddingHorizontal: 16,
-    backgroundColor: "#08125a",
+    backgroundColor: GlobalStyles.colors.primary700,
   },
   goalsContainer: {
     flex: 4,

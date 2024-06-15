@@ -1,8 +1,13 @@
 import "react-native-gesture-handler";
 
+import { View, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
@@ -93,16 +98,47 @@ export default function App() {
       <StatusBar style="light" />
       <Provider store={store}>
         <NavigationContainer>
-          <Drawer.Navigator>
+          <Drawer.Navigator
+            drawerContent={(props) => (
+              <DrawerContentScrollView {...props}>
+                <View>
+                  <View style={{ padding: 20 }}>
+                    <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                      Choose Task
+                    </Text>
+                  </View>
+                </View>
+                <DrawerItemList {...props} />
+              </DrawerContentScrollView>
+            )}
+            screenOptions={{
+              drawerStyle: { backgroundColor: GlobalStyles.colors.primary50 },
+              headerStyle: { backgroundColor: GlobalStyles.colors.primary50 },
+            }}
+          >
             <Drawer.Screen
               name="GoalsScreen"
               component={Goals}
-              options={{ title: "Goals" }}
+              options={{
+                title: "Goals",
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons
+                    name="checkmark-done-outline"
+                    color={color}
+                    size={size}
+                  />
+                ),
+              }}
             />
             <Drawer.Screen
               name="BudgetTracker"
               component={BudgetTracker}
-              options={{ title: "Budget Tracker" }}
+              options={{
+                title: "Budget Tracker",
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons name="cash-outline" color={color} size={size} />
+                ),
+              }}
             />
           </Drawer.Navigator>
         </NavigationContainer>
