@@ -1,6 +1,6 @@
-import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
+import ExpensesOutput from "../../components/ExpensesOutput/ExpensesOutput";
 
-import { deserializeExpenseDataDate } from "../util/date";
+import { deserializeExpenseDataDate } from "../../util/date";
 
 const AllExpenses = () => {
   const expenses = deserializeExpenseDataDate();

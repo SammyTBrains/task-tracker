@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
+import ExpensesOutput from "../../components/ExpensesOutput/ExpensesOutput";
 import { useDispatch } from "react-redux";
 
-import { deserializeExpenseDataDate, getDateMinusDays } from "../util/date";
-import { fetchExpenses } from "../util/http";
-import { setExpenses } from "../store/expenses-context";
-import LoadingOverlay from "../components/UI/LoadingOverlay";
-import ErrorOverlay from "../components/UI/ErrorOverlay";
+import { deserializeExpenseDataDate, getDateMinusDays } from "../../util/date";
+import { fetchExpenses } from "../../util/http";
+import { setExpenses } from "../../store/expenses-context";
+import LoadingOverlay from "../../components/UI/LoadingOverlay";
+import ErrorOverlay from "../../components/UI/ErrorOverlay";
 
 const RecentExpenses = () => {
   const dispatch = useDispatch();
