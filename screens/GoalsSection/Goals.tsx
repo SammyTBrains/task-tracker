@@ -34,13 +34,19 @@ const Goals = () => {
     if (enteredText.length === 0) {
       return;
     }
-
     setGoals((currentGoals: GoalsType[]) => {
+      // Add the new goal to the current goals array
+      const updatedGoals = [
+        ...currentGoals,
+        { goal: enteredText, date: date, id: id },
+      ];
+
       // Sort goals by date in ascending order (earliest first)
-      currentGoals.sort(
+      updatedGoals.sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       );
-      return [...currentGoals, { goal: enteredText, date: date, id: id }];
+
+      return updatedGoals;
     });
 
     endGoalHandler();
