@@ -24,3 +24,9 @@ export type GoalsDataType = {
   goal: string;
   date: string;
 };
+
+export type GoalsDataTypeWithID = {
+  goal: string;
+  date: string;
+  id: string;
+};

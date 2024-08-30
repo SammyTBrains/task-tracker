@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   ExpenseTypeWithStringDate,
   GoalsDataType,
+  GoalsDataTypeWithID,
 } from "../type-utilities/type";
 
 const BACKEND_URL =
@@ -45,12 +46,13 @@ export const fetchExpenses = async () => {
 export const fetchGoals = async () => {
   const response = await axios.get(BACKEND_URL + "/goals.json");
 
-  const goals: GoalsDataType[] = [];
+  const goals: GoalsDataTypeWithID[] = [];
 
   for (const key in response.data) {
-    const goalObj: GoalsDataType = {
+    const goalObj: GoalsDataTypeWithID = {
       goal: response.data[key].goal,
       date: response.data[key].date,
+      id: key,
     };
 
     goals.push(goalObj);
@@ -66,3 +68,6 @@ export const updateExpense = (
 
 export const deleteExpense = (id: string) =>
   axios.delete(BACKEND_URL + `/expenses/${id}.json`);
+
+export const deleteGoal = (id: string) =>
+  axios.delete(BACKEND_URL + `/goals/${id}.json`);

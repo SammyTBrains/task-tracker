@@ -13,10 +13,10 @@ import { GlobalStyles } from "../../constants/styles";
 import { storeGoals } from "../../util/http";
 import ErrorOverlay from "../UI/ErrorOverlay";
 import LoadingOverlay from "../UI/LoadingOverlay";
-import { GoalsDataType } from "../../type-utilities/type";
+import { GoalsDataType, GoalsDataTypeWithID } from "../../type-utilities/type";
 
 type Props = {
-  onAddGoal: (enteredText: string, enteredDate: string) => void;
+  onAddGoal: (enteredText: string, enteredDate: string, id: string) => void;
   visible: boolean;
   onCancel: () => void;
 };
@@ -40,9 +40,8 @@ const GoalInput = (props: Props) => {
     setIsSubmitting(true);
     try {
       const id = await storeGoals(goalData);
-
       setIsSubmitting(false);
-      props.onAddGoal(goalData.goal, goalData.date);
+      props.onAddGoal(goalData.goal, goalData.date, id);
       setGoalData({ goal: "", date: "" });
     } catch (error) {
       setError("Could not submit data - please try again!");
