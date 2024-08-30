@@ -2,7 +2,8 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { GlobalStyles } from "../../constants/styles";
 
 type Props = {
-  text: string;
+  goal: string;
+  date: string;
   onDeleteHandler: (id: string) => void;
   id: string;
 };
@@ -15,7 +16,16 @@ const GoalItem = (props: Props) => {
         onPress={props.onDeleteHandler.bind(this, props.id)}
         style={({ pressed }) => pressed && styles.presesdItem}
       >
-        <Text style={styles.goalText}>{props.text}</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text style={styles.goalText}>{props.goal}</Text>
+          <Text style={styles.goalText}>{props.date}</Text>
+        </View>
       </Pressable>
     </View>
   );

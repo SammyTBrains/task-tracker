@@ -5,7 +5,7 @@ import GoalInput from "../../components/Goals/GoalInput";
 import { StatusBar } from "expo-status-bar";
 import { GlobalStyles } from "../../constants/styles";
 
-type GoalsType = { text: string; id: string };
+type GoalsType = { goal: string; date: string; id: string };
 
 const Goals = () => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -15,14 +15,14 @@ const Goals = () => {
     setModalIsVisible(false);
   };
 
-  const addGoalHandler = (enteredText: string) => {
+  const addGoalHandler = (enteredText: string, date: string) => {
     if (enteredText.length === 0) {
       return;
     }
 
     setGoals((currentGoals: GoalsType[]) => [
       ...currentGoals,
-      { text: enteredText, id: Math.random().toString() },
+      { goal: enteredText, date: date, id: Math.random().toString() },
     ]);
 
     endGoalHandler();
@@ -56,7 +56,8 @@ const Goals = () => {
             renderItem={(itemData) => {
               return (
                 <GoalItem
-                  text={itemData.item.text}
+                  goal={itemData.item.goal}
+                  date={itemData.item.date}
                   id={itemData.item.id}
                   onDeleteHandler={deleteGoalHandler}
                 />
