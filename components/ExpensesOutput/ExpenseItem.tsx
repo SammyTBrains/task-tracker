@@ -19,9 +19,9 @@ const ExpenseItem = (props: ExpenseType) => {
   };
 
   // Format the amount with commas using toLocaleString()
-  const formattedAmount = props.amount.toLocaleString("en-US", {
+  const formattedAmount = props.amount.toLocaleString("en-NG", {
     style: "currency",
-    currency: "USD", // Replace 'USD' with your desired currency code
+    currency: "NGN", // Change to Nigerian Naira
     minimumFractionDigits: 2, // Adjust for desired decimal places
   });
 
