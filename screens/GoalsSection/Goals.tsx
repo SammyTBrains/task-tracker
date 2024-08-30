@@ -35,10 +35,13 @@ const Goals = () => {
       return;
     }
 
-    setGoals((currentGoals: GoalsType[]) => [
-      ...currentGoals,
-      { goal: enteredText, date: date, id: id },
-    ]);
+    setGoals((currentGoals: GoalsType[]) => {
+      // Sort goals by date in ascending order (earliest first)
+      currentGoals.sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+      return [...currentGoals, { goal: enteredText, date: date, id: id }];
+    });
 
     endGoalHandler();
   };
@@ -57,6 +60,10 @@ const Goals = () => {
 
         goalsConvertionContainer.push(goalObj);
       }
+      // Sort goals by date in ascending order (earliest first)
+      goalsConvertionContainer.sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
       setGoals(goalsConvertionContainer);
       setError(null);
     } catch (error) {
@@ -68,7 +75,6 @@ const Goals = () => {
   const deleteGoalHandler = async (id: string) => {
     setIsDeleting(true);
     try {
-      console.log("id: " + id);
       await deleteGoal(id);
       setGoals((currentGoals) => currentGoals.filter((goal) => id !== goal.id));
       setIsDeleting(false);
@@ -112,12 +118,32 @@ const Goals = () => {
             onRefresh={getData}
             refreshing={isFetchingGoals}
             renderItem={(itemData) => {
+              // Get the current date and goal date
+              const currentDate = new Date();
+              const goalDate = new Date(itemData.item.date);
+
+              // Remove the time portion from both dates for accurate date-only comparison
+              currentDate.setHours(0, 0, 0, 0);
+              goalDate.setHours(0, 0, 0, 0);
+
+              // Check if the goal date is today
+              const isToday = goalDate.getTime() === currentDate.getTime();
+
+              // Check if the goal date has passed
+              const isPast = goalDate < currentDate;
               return (
                 <GoalItem
                   goal={itemData.item.goal}
                   date={itemData.item.date}
                   id={itemData.item.id}
                   onDeleteHandler={deleteGoalHandler}
+                  style={
+                    isPast
+                      ? { backgroundColor: "red" }
+                      : isToday
+                      ? { backgroundColor: "#ef5454" }
+                      : {}
+                  }
                 />
               );
             }}

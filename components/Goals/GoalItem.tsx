@@ -6,11 +6,12 @@ type Props = {
   date: string;
   onDeleteHandler: (id: string) => void;
   id: string;
+  style?: {};
 };
 
 const GoalItem = (props: Props) => {
   return (
-    <View style={styles.goalItem}>
+    <View style={[styles.goalItem, props.style]}>
       <Pressable
         android_ripple={{ color: "#0b0558" }}
         onPress={props.onDeleteHandler.bind(this, props.id)}
