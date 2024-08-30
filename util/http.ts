@@ -1,5 +1,8 @@
 import axios from "axios";
-import { ExpenseTypeWithStringDate } from "../type-utilities/type";
+import {
+  ExpenseTypeWithStringDate,
+  GoalsDataType,
+} from "../type-utilities/type";
 
 const BACKEND_URL =
   "https://expense-tracker-2a1b2-default-rtdb.europe-west1.firebasedatabase.app";
@@ -9,6 +12,13 @@ export const storeExpense = async (expenseData: ExpenseTypeWithStringDate) => {
     BACKEND_URL + "/expenses.json",
     expenseData
   );
+  const id = response.data.name;
+  return id;
+};
+
+export const storeGoals = async (goalsData: GoalsDataType) => {
+  const response = await axios.post(BACKEND_URL + "/goals.json", goalsData);
+
   const id = response.data.name;
   return id;
 };
@@ -30,6 +40,23 @@ export const fetchExpenses = async () => {
   }
 
   return expenses;
+};
+
+export const fetchGoals = async () => {
+  const response = await axios.get(BACKEND_URL + "/goals.json");
+
+  const goals: GoalsDataType[] = [];
+
+  for (const key in response.data) {
+    const goalObj: GoalsDataType = {
+      goal: response.data[key].goal,
+      date: response.data[key].date,
+    };
+
+    goals.push(goalObj);
+  }
+
+  return goals;
 };
 
 export const updateExpense = (

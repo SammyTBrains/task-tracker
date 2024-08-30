@@ -10,6 +10,10 @@ import {
 } from "react-native";
 import DatePicker from "../ManageExpense/DatePicker";
 import { GlobalStyles } from "../../constants/styles";
+import { storeGoals } from "../../util/http";
+import ErrorOverlay from "../UI/ErrorOverlay";
+import LoadingOverlay from "../UI/LoadingOverlay";
+import { GoalsDataType } from "../../type-utilities/type";
 
 type Props = {
   onAddGoal: (enteredText: string, enteredDate: string) => void;
@@ -18,23 +22,55 @@ type Props = {
 };
 
 const GoalInput = (props: Props) => {
-  const [enteredText, setEnteredText] = useState("");
-  const [enteredDate, setEnteredDate] = useState("");
+  const [goalData, setGoalData] = useState<GoalsDataType>({
+    goal: "",
+    date: "",
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const goalInputHandler = (enteredText: string) => {
-    setEnteredText(enteredText);
+    setGoalData((prevState) => {
+      return { ...prevState, goal: enteredText };
+    });
   };
 
-  const addGoalHandler = () => {
-    props.onAddGoal(enteredText, enteredDate);
-    setEnteredText("");
+  const addGoalHandler = async () => {
+    setIsSubmitting(true);
+    try {
+      const id = await storeGoals(goalData);
+
+      setIsSubmitting(false);
+      props.onAddGoal(goalData.goal, goalData.date);
+      setGoalData({ goal: "", date: "" });
+    } catch (error) {
+      setError("Could not submit data - please try again!");
+      setIsSubmitting(false);
+    }
   };
 
   const settingEnteredDate = (fieldName: string, value: string) => {
-    setEnteredDate(value);
+    setGoalData((prevState) => {
+      return { ...prevState, date: value };
+    });
   };
 
   const setFieldTouched = (fieldName: string, bool: boolean) => {};
+
+  if (isSubmitting) {
+    return <LoadingOverlay />;
+  }
+
+  if (error && !isSubmitting) {
+    return (
+      <ErrorOverlay
+        message={error}
+        buttonText="Retry!"
+        onConfirm={() => setError(null)}
+      />
+    );
+  }
 
   return (
     <Modal visible={props.visible} animationType="slide">
@@ -56,14 +92,14 @@ const GoalInput = (props: Props) => {
               style={styles.textInput}
               placeholder="Your course goals!"
               onChangeText={goalInputHandler}
-              value={enteredText}
+              value={goalData.goal}
             />
           </View>
           <DatePicker
             style={styles.rowInputs}
             setFieldValue={settingEnteredDate}
             setFieldTouched={setFieldTouched}
-            value={enteredDate}
+            value={goalData.date}
           />
         </View>
         <View style={styles.buttonContainer}>

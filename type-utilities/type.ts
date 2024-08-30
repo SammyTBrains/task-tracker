@@ -19,3 +19,8 @@ export type ExpenseTypeWithStringDate = {
   amount: number;
   date: string;
 };
+
+export type GoalsDataType = {
+  goal: string;
+  date: string;
+};
